@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación del Dolor Pediátrico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Página de Bienvenida -->
+    <div id="welcome-page" class="page active">
+        <div class="container">
+            <div class="welcome-header">
+                <div class="star-animation">⭐</div>
+                <h1>Evaluador del Dolor Pediátrico</h1>
+                <div class="star-animation">⭐</div>
+            </div>
+            <p class="welcome-subtitle">Ayudemos a entender cómo te sientes hoy</p>
+            
+            <div class="info-card">
+                <p>Esta herramienta está diseñada para ayudar a evaluar el dolor en niños de manera profesional y amigable. Los resultados proporcionarán información valiosa para el equipo médico.</p>
+            </div>
+            
+            <div class="setup-steps">
+                <!-- Selección de Edad -->
+                <div class="step-card" id="age-step">
+                    <h3>Paso 1: ¿Qué edad tiene el niño/a?</h3>
+                    <div class="age-buttons">
+                        <button class="age-btn" data-age="0-2">
+                            <span class="age-emoji">👶</span>
+                            <span>0-2 años<br><small>Bebé</small></span>
+                        </button>
+                        <button class="age-btn" data-age="3-4">
+                            <span class="age-emoji">🧒</span>
+                            <span>3-4 años<br><small>Preescolar</small></span>
+                        </button>
+                        <button class="age-btn" data-age="5-7">
+                            <span class="age-emoji">👦</span>
+                            <span>5-7 años<br><small>Escolar</small></span>
+                        </button>
+                        <button class="age-btn" data-age="8-12">
+                            <span class="age-emoji">🧑</span>
+                            <span>8-12 años<br><small>Preadolescente</small></span>
+                        </button>
+                        <button class="age-btn" data-age="13-18">
+                            <span class="age-emoji">👩</span>
+                            <span>13-18 años<br><small>Adolescente</small></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Selección de Patología -->
+                <div class="step-card hidden" id="pathology-step">
+                    <h3>Paso 2: ¿El niño/a tiene dificultades de comunicación?</h3>
+                    <div class="pathology-buttons">
+                        <button class="pathology-btn" data-pathology="neurological">
+                            <span class="pathology-icon">🧠</span>
+                            <div class="pathology-text">
+                                <strong>Trastorno neurológico con dificultades de comunicación</strong>
+                                <small>Debido a condición neurológica, discapacidad cognitiva o del desarrollo</small>
+                            </div>
+                        </button>
+                        <button class="pathology-btn" data-pathology="other">
+                            <span class="pathology-icon">💝</span>
+                            <div class="pathology-text">
+                                <strong>Otras patologías sin dificultades de comunicación</strong>
+                                <small>Puede comunicarse de manera típica para su edad</small>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="continue-to-mapping" class="btn btn--primary btn--lg hidden">
+                    Continuar a Localización ✨
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de Localización del Dolor -->
+    <div id="body-mapping-page" class="page">
+        <div class="container">
+            <div class="mapping-header">
+                <button id="back-to-welcome" class="btn btn--outline">← Volver</button>
+                <h2>Localización del Dolor</h2>
+                <div class="progress-indicator">
+                    <span class="progress-step active">1</span>
+                    <span class="progress-step">2</span>
+                    <span class="progress-step">3</span>
+                </div>
+            </div>
+
+            <div class="mapping-info">
+                <p>Marca hasta 4 localizaciones diferentes donde el niño/a siente dolor. Cada dolor se marcará con un color diferente.</p>
+            </div>
+
+            <div class="body-map-container">
+                <div class="view-selector">
+                    <button id="anterior-view-btn" class="view-btn active">Vista Frontal</button>
+                    <button id="posterior-view-btn" class="view-btn">Vista Posterior</button>
+                </div>
+
+                <div class="pain-markers">
+                    <div class="marker-info" data-pain="1">
+                        <div class="marker-color" style="background-color: #FF4444;"></div>
+                        <span>Dolor 1 (Rojo)</span>
+                        <button class="remove-marker" data-pain="1">✕</button>
+                    </div>
+                    <div class="marker-info" data-pain="2">
+                        <div class="marker-color" style="background-color: #4444FF;"></div>
+                        <span>Dolor 2 (Azul)</span>
+                        <button class="remove-marker" data-pain="2">✕</button>
+                    </div>
+                    <div class="marker-info" data-pain="3">
+                        <div class="marker-color" style="background-color: #44FF44;"></div>
+                        <span>Dolor 3 (Verde)</span>
+                        <button class="remove-marker" data-pain="3">✕</button>
+                    </div>
+                    <div class="marker-info" data-pain="4">
+                        <div class="marker-color" style="background-color: #FF8844;"></div>
+                        <span>Dolor 4 (Naranja)</span>
+                        <button class="remove-marker" data-pain="4">✕</button>
+                    </div>
+                </div>
+
+                <div class="body-map-wrapper">
+                    <div id="body-map-anterior" class="body-map active">
+                        <svg width="300" height="500" viewBox="0 0 300 500">
+                            <!-- Figura corporal anterior -->
+                            <circle cx="150" cy="50" r="25" class="body-region" data-region="1" data-name="Cabeza"/>
+                            <circle cx="150" cy="75" r="20" class="body-region" data-region="2" data-name="Cara"/>
+                            <circle cx="150" cy="105" r="15" class="body-region" data-region="3" data-name="Cuello"/>
+                            <circle cx="120" cy="130" r="20" class="body-region" data-region="4" data-name="Hombro Izquierdo"/>
+                            <circle cx="180" cy="130" r="20" class="body-region" data-region="5" data-name="Hombro Derecho"/>
+                            <circle cx="150" cy="160" r="30" class="body-region" data-region="6" data-name="Pecho"/>
+                            <circle cx="95" cy="160" r="18" class="body-region" data-region="7" data-name="Brazo Izquierdo"/>
+                            <circle cx="205" cy="160" r="18" class="body-region" data-region="8" data-name="Brazo Derecho"/>
+                            <circle cx="80" cy="200" r="15" class="body-region" data-region="9" data-name="Antebrazo Izquierdo"/>
+                            <circle cx="220" cy="200" r="15" class="body-region" data-region="10" data-name="Antebrazo Derecho"/>
+                            <circle cx="150" cy="200" r="25" class="body-region" data-region="11" data-name="Abdomen"/>
+                            <circle cx="65" cy="235" r="12" class="body-region" data-region="12" data-name="Mano Izquierda"/>
+                            <circle cx="235" cy="235" r="12" class="body-region" data-region="13" data-name="Mano Derecha"/>
+                            <circle cx="150" cy="240" r="25" class="body-region" data-region="18" data-name="Pelvis"/>
+                            <circle cx="135" cy="290" r="20" class="body-region" data-region="19" data-name="Muslo Izquierdo"/>
+                            <circle cx="165" cy="290" r="20" class="body-region" data-region="20" data-name="Muslo Derecho"/>
+                            <circle cx="135" cy="340" r="18" class="body-region" data-region="21" data-name="Rodilla Izquierda"/>
+                            <circle cx="165" cy="340" r="18" class="body-region" data-region="22" data-name="Rodilla Derecha"/>
+                            <circle cx="135" cy="380" r="18" class="body-region" data-region="23" data-name="Pantorrilla Izquierda"/>
+                            <circle cx="165" cy="380" r="18" class="body-region" data-region="24" data-name="Pantorrilla Derecha"/>
+                            <circle cx="135" cy="445" r="18" class="body-region" data-region="27" data-name="Pie Izquierdo"/>
+                            <circle cx="165" cy="445" r="18" class="body-region" data-region="28" data-name="Pie Derecho"/>
+                        </svg>
+                    </div>
+
+                    <div id="body-map-posterior" class="body-map">
+                        <svg width="300" height="500" viewBox="0 0 300 500">
+                            <!-- Figura corporal posterior -->
+                            <circle cx="150" cy="50" r="25" class="body-region" data-region="29" data-name="Cabeza (posterior)"/>
+                            <circle cx="150" cy="105" r="15" class="body-region" data-region="30" data-name="Cuello (posterior)"/>
+                            <circle cx="120" cy="130" r="20" class="body-region" data-region="31" data-name="Hombro Izq (posterior)"/>
+                            <circle cx="180" cy="130" r="20" class="body-region" data-region="32" data-name="Hombro Der (posterior)"/>
+                            <circle cx="150" cy="150" r="25" class="body-region" data-region="33" data-name="Espalda Alta"/>
+                            <circle cx="95" cy="160" r="18" class="body-region" data-region="34" data-name="Brazo Izq (posterior)"/>
+                            <circle cx="205" cy="160" r="18" class="body-region" data-region="35" data-name="Brazo Der (posterior)"/>
+                            <circle cx="150" cy="190" r="25" class="body-region" data-region="36" data-name="Espalda Media"/>
+                            <circle cx="80" cy="200" r="15" class="body-region" data-region="37" data-name="Antebrazo Izq (posterior)"/>
+                            <circle cx="220" cy="200" r="15" class="body-region" data-region="38" data-name="Antebrazo Der (posterior)"/>
+                            <circle cx="150" cy="220" r="25" class="body-region" data-region="39" data-name="Espalda Baja"/>
+                            <circle cx="65" cy="235" r="12" class="body-region" data-region="40" data-name="Mano Izq (posterior)"/>
+                            <circle cx="235" cy="235" r="12" class="body-region" data-region="41" data-name="Mano Der (posterior)"/>
+                            <circle cx="150" cy="250" r="25" class="body-region" data-region="46" data-name="Glúteos"/>
+                            <circle cx="135" cy="290" r="20" class="body-region" data-region="47" data-name="Muslo Izq (posterior)"/>
+                            <circle cx="165" cy="290" r="20" class="body-region" data-region="48" data-name="Muslo Der (posterior)"/>
+                            <circle cx="135" cy="380" r="18" class="body-region" data-region="51" data-name="Pantorrilla Izq (posterior)"/>
+                            <circle cx="165" cy="380" r="18" class="body-region" data-region="52" data-name="Pantorrilla Der (posterior)"/>
+                            <circle cx="135" cy="445" r="18" class="body-region" data-region="55" data-name="Pie Izq (posterior)"/>
+                            <circle cx="165" cy="445" r="18" class="body-region" data-region="56" data-name="Pie Der (posterior)"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="selected-regions">
+                    <h4>Regiones Seleccionadas:</h4>
+                    <div id="regions-list"></div>
+                </div>
+            </div>
+
+            <button id="continue-to-characteristics" class="btn btn--primary btn--lg hidden">
+                Continuar a Características ✨
+            </button>
+
+            <button id="continue-to-assessment" class="btn btn--primary btn--lg hidden">
+                Continuar a Evaluación ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- Página de Características del Dolor -->
+    <div id="pain-characteristics-page" class="page">
+        <div class="container">
+            <div class="characteristics-header">
+                <button id="back-to-mapping" class="btn btn--outline">← Volver</button>
+                <h2>Características del Dolor</h2>
+                <div class="progress-indicator">
+                    <span class="progress-step completed">1</span>
+                    <span class="progress-step active">2</span>
+                    <span class="progress-step">3</span>
+                </div>
+            </div>
+
+            <div class="current-pain-selector">
+                <h3>Selecciona el dolor a evaluar:</h3>
+                <div id="pain-selector-buttons"></div>
+            </div>
+
+            <div class="characteristics-info">
+                <p>Selecciona las características que mejor describen este dolor:</p>
+            </div>
+
+            <div class="characteristics-grid">
+                <div class="characteristic-item" data-char="pulsatil">
+                    <div class="char-icon">🔨</div>
+                    <h4>Pulsátil</h4>
+                    <p>Como latidos o martillazos</p>
+                </div>
+                <div class="characteristic-item" data-char="presion">
+                    <div class="char-icon">🗜️</div>
+                    <h4>Presión</h4>
+                    <p>Como si algo apretara o presionara</p>
+                </div>
+                <div class="characteristic-item" data-char="electrico">
+                    <div class="char-icon">⚡</div>
+                    <h4>Eléctrico/Calambre</h4>
+                    <p>Como descargas eléctricas o calambres</p>
+                </div>
+                <div class="characteristic-item" data-char="hormigueo">
+                    <div class="char-icon">🐜</div>
+                    <h4>Hormigueo/Parestesias</h4>
+                    <p>Como hormigas caminando o adormecimiento</p>
+                </div>
+                <div class="characteristic-item" data-char="quemazon">
+                    <div class="char-icon">🔥</div>
+                    <h4>Quemazón</h4>
+                    <p>Como si quemara o ardiera</p>
+                </div>
+                <div class="characteristic-item" data-char="punzante">
+                    <div class="char-icon">🗡️</div>
+                    <h4>Punzante</h4>
+                    <p>Como pinchazos o puñaladas</p>
+                </div>
+                <div class="characteristic-item" data-char="sordo">
+                    <div class="char-icon">💊</div>
+                    <h4>Sordo/Constante</h4>
+                    <p>Dolor constante y profundo</p>
+                </div>
+            </div>
+
+            <button id="finish-characteristics" class="btn btn--primary btn--lg">
+                Continuar a Evaluación ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- Página de Evaluación -->
+    <div id="assessment-page" class="page">
+        <div class="container">
+            <div class="assessment-header">
+                <button id="back-to-characteristics" class="btn btn--outline">← Volver</button>
+                <h2 id="assessment-title">Evaluación del Dolor</h2>
+                <div class="progress-indicator">
+                    <span class="progress-step completed">1</span>
+                    <span class="progress-step completed">2</span>
+                    <span class="progress-step active">3</span>
+                </div>
+            </div>
+
+            <div class="assessment-info">
+                <h3 id="scale-name"></h3>
+                <p id="scale-description"></p>
+            </div>
+
+            <div class="current-assessment-selector">
+                <h4>Evaluando:</h4>
+                <div id="assessment-selector-buttons"></div>
+            </div>
+
+            <!-- Escala FLACC -->
+            <div id="flacc-scale" class="assessment-scale hidden">
+                <div class="flacc-categories">
+                    <div class="flacc-category" data-category="face">
+                        <h4>😊 Cara</h4>
+                        <div class="score-options">
+                            <label class="score-option">
+                                <input type="radio" name="face" value="0">
+                                <span>Sin expresión particular o sonríe</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="face" value="1">
+                                <span>Mueca ocasional o ceño fruncido, retraído, desinteresado</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="face" value="2">
+                                <span>Ceño fruncido frecuente o constante, mandíbula apretada, barbilla temblorosa</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flacc-category" data-category="legs">
+                        <h4>🦵 Piernas</h4>
+                        <div class="score-options">
+                            <label class="score-option">
+                                <input type="radio" name="legs" value="0">
+                                <span>Posición normal o relajada</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="legs" value="1">
+                                <span>Inquieto, sin descanso, tenso</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="legs" value="2">
+                                <span>Pateando o piernas encogidas</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flacc-category" data-category="activity">
+                        <h4>🏃 Actividad</h4>
+                        <div class="score-options">
+                            <label class="score-option">
+                                <input type="radio" name="activity" value="0">
+                                <span>Acostado tranquilo, posición normal, se mueve fácilmente</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="activity" value="1">
+                                <span>Retorciéndose, cambiando de posición, tenso</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="activity" value="2">
+                                <span>Arqueado, rígido o con espasmos</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flacc-category" data-category="cry">
+                        <h4>😢 Llanto</h4>
+                        <div class="score-options">
+                            <label class="score-option">
+                                <input type="radio" name="cry" value="0">
+                                <span>Sin llanto (despierto o dormido)</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="cry" value="1">
+                                <span>Gemidos o lloriqueos, queja ocasional</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="cry" value="2">
+                                <span>Llanto constante, gritos o sollozos, quejas frecuentes</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flacc-category" data-category="consolability">
+                        <h4>🤗 Consolabilidad</h4>
+                        <div class="score-options">
+                            <label class="score-option">
+                                <input type="radio" name="consolability" value="0">
+                                <span>Contento, relajado</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="consolability" value="1">
+                                <span>Tranquilizado por caricias ocasionales, abrazos o conversación, se distrae</span>
+                            </label>
+                            <label class="score-option">
+                                <input type="radio" name="consolability" value="2">
+                                <span>Difícil de consolar o confortar</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escala FPS-R -->
+            <div id="fps-r-scale" class="assessment-scale hidden">
+                <p>Señala la cara que muestra cuánto dolor tienes ahora mismo:</p>
+                <div class="faces-container">
+                    <div class="face-option" data-score="0">
+                        <div class="face">😊</div>
+                        <span>Sin dolor</span>
+                    </div>
+                    <div class="face-option" data-score="2">
+                        <div class="face">🙂</div>
+                        <span>Un poco de dolor</span>
+                    </div>
+                    <div class="face-option" data-score="4">
+                        <div class="face">😐</div>
+                        <span>Un poco más de dolor</span>
+                    </div>
+                    <div class="face-option" data-score="6">
+                        <div class="face">☹️</div>
+                        <span>Aún más dolor</span>
+                    </div>
+                    <div class="face-option" data-score="8">
+                        <div class="face">😣</div>
+                        <span>Mucho dolor</span>
+                    </div>
+                    <div class="face-option" data-score="10">
+                        <div class="face">😭</div>
+                        <span>El mayor dolor posible</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escala Numérica -->
+            <div id="nrs-scale" class="assessment-scale hidden">
+                <p>Califica tu dolor del 0 (sin dolor) al 10 (el peor dolor posible):</p>
+                <div class="nrs-container">
+                    <div class="nrs-scale-visual">
+                        <div class="nrs-numbers">
+                            <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+                            <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                        </div>
+                        <input type="range" id="nrs-slider" min="0" max="10" value="0">
+                        <div class="nrs-labels">
+                            <span>Sin dolor</span>
+                            <span>El peor dolor posible</span>
+                        </div>
+                    </div>
+                    <div class="nrs-display">
+                        <span>Puntuación actual: </span>
+                        <span id="nrs-value">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escala PPP -->
+            <div id="ppp-scale" class="assessment-scale hidden">
+                <p>Califique cada comportamiento basándose en cómo ha estado el niño en la semana pasada:</p>
+                <div class="ppp-items">
+                    <div class="ppp-item">
+                        <h4>🍽️ Comer/Beber</h4>
+                        <div class="ppp-rating">
+                            <label><input type="radio" name="eating" value="0"> Para nada</label>
+                            <label><input type="radio" name="eating" value="1"> Un poco</label>
+                            <label><input type="radio" name="eating" value="2"> Bastante</label>
+                            <label><input type="radio" name="eating" value="3"> Mucho</label>
+                        </div>
+                    </div>
+                    <div class="ppp-item">
+                        <h4>😊 Social/Emocional</h4>
+                        <div class="ppp-rating">
+                            <label><input type="radio" name="social" value="0"> Para nada</label>
+                            <label><input type="radio" name="social" value="1"> Un poco</label>
+                            <label><input type="radio" name="social" value="2"> Bastante</label>
+                            <label><input type="radio" name="social" value="3"> Mucho</label>
+                        </div>
+                    </div>
+                    <div class="ppp-item">
+                        <h4>😐 Expresión Facial</h4>
+                        <div class="ppp-rating">
+                            <label><input type="radio" name="facial" value="0"> Para nada</label>
+                            <label><input type="radio" name="facial" value="1"> Un poco</label>
+                            <label><input type="radio" name="facial" value="2"> Bastante</label>
+                            <label><input type="radio" name="facial" value="3"> Mucho</label>
+                        </div>
+                    </div>
+                    <div class="ppp-item">
+                        <h4>🏃 Nivel de Actividad</h4>
+                        <div class="ppp-rating">
+                            <label><input type="radio" name="activitylevel" value="0"> Para nada</label>
+                            <label><input type="radio" name="activitylevel" value="1"> Un poco</label>
+                            <label><input type="radio" name="activitylevel" value="2"> Bastante</label>
+                            <label><input type="radio" name="activitylevel" value="3"> Mucho</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escala NCCPC-R -->
+            <div id="nccpc-r-scale" class="assessment-scale hidden">
+                <p>Observe al niño durante 2 horas y marque cada comportamiento según su frecuencia:</p>
+                <div class="nccpc-categories">
+                    <div class="nccpc-category">
+                        <h4>🗣️ Vocal</h4>
+                        <div class="nccpc-items">
+                            <div class="nccpc-item">
+                                <span>Gemidos, llantos</span>
+                                <div class="nccpc-rating">
+                                    <label><input type="radio" name="vocal1" value="0"> No</label>
+                                    <label><input type="radio" name="vocal1" value="1"> Un poco</label>
+                                    <label><input type="radio" name="vocal1" value="2"> Moderado</label>
+                                    <label><input type="radio" name="vocal1" value="3"> Mucho</label>
+                                </div>
+                            </div>
+                            <div class="nccpc-item">
+                                <span>Gritos, chillidos</span>
+                                <div class="nccpc-rating">
+                                    <label><input type="radio" name="vocal2" value="0"> No</label>
+                                    <label><input type="radio" name="vocal2" value="1"> Un poco</label>
+                                    <label><input type="radio" name="vocal2" value="2"> Moderado</label>
+                                    <label><input type="radio" name="vocal2" value="3"> Mucho</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nccpc-category">
+                        <h4>🤝 Social/Emocional</h4>
+                        <div class="nccpc-items">
+                            <div class="nccpc-item">
+                                <span>No coopera, irritable</span>
+                                <div class="nccpc-rating">
+                                    <label><input type="radio" name="social1" value="0"> No</label>
+                                    <label><input type="radio" name="social1" value="1"> Un poco</label>
+                                    <label><input type="radio" name="social1" value="2"> Moderado</label>
+                                    <label><input type="radio" name="social1" value="3"> Mucho</label>
+                                </div>
+                            </div>
+                            <div class="nccpc-item">
+                                <span>Menos interacción social, silencioso</span>
+                                <div class="nccpc-rating">
+                                    <label><input type="radio" name="social2" value="0"> No</label>
+                                    <label><input type="radio" name="social2" value="1"> Un poco</label>
+                                    <label><input type="radio" name="social2" value="2"> Moderado</label>
+                                    <label><input type="radio" name="social2" value="3"> Mucho</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nccpc-category">
+                        <h4>😐 Facial</h4>
+                        <div class="nccpc-items">
+                            <div class="nccpc-item">
+                                <span>Cara tensa, muecas</span>
+                                <div class="nccpc-rating">
+                                    <label><input type="radio" name="facial1" value="0"> No</label>
+                                    <label><input type="radio" name="facial1" value="1"> Un poco</label>
+                                    <label><input type="radio" name="facial1" value="2"> Moderado</label>
+                                    <label><input type="radio" name="facial1" value="3"> Mucho</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="next-pain-assessment" class="btn btn--primary btn--lg hidden">
+                Siguiente Dolor ➡️
+            </button>
+
+            <button id="complete-assessment" class="btn btn--primary btn--lg hidden">
+                Completar Evaluación ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- Página de Resultados -->
+    <div id="results-page" class="page">
+        <div class="container">
+            <div class="results-header">
+                <div class="celebration">🎉</div>
+                <h2>¡Evaluación Completa!</h2>
+                <div class="celebration">🎉</div>
+            </div>
+
+            <div class="results-summary">
+                <div class="pain-locations-summary">
+                    <h3>Resumen de Localizaciones</h3>
+                    <div id="locations-summary"></div>
+                </div>
+
+                <div class="pain-classifications">
+                    <h3>Clasificación del Dolor</h3>
+                    <div id="pain-types-summary"></div>
+                </div>
+            </div>
+
+            <div class="results-actions">
+                <button id="generate-report" class="btn btn--primary btn--lg">
+                    📋 Informa a tu médico
+                </button>
+                <button id="new-assessment" class="btn btn--outline">Nueva Evaluación</button>
+                <button id="learn-more" class="btn btn--outline">Aprender Más</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Informe Médico -->
+    <div id="medical-report-modal" class="modal hidden">
+        <div class="modal-content large-modal">
+            <div class="modal-header">
+                <h3>Informe de Evaluación del Dolor Pediátrico</h3>
+                <button id="close-report-modal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="medical-report-content"></div>
+                <div class="report-actions">
+                    <button id="print-report" class="btn btn--primary">🖨️ Imprimir</button>
+                    <button id="save-report" class="btn btn--secondary">💾 Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Educativo -->
+    <div id="educational-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Acerca de la Evaluación del Dolor</h3>
+                <button id="close-modal" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>¿Por qué es importante la evaluación del dolor?</h4>
+                <p>La evaluación regular del dolor es crucial para un manejo efectivo del dolor en niños. Se utilizan diferentes escalas según la edad del niño y su capacidad para comunicarse.</p>
+                
+                <h4>Acerca de esta evaluación:</h4>
+                <div id="scale-explanation"></div>
+                
+                <h4>Consejos para el manejo del dolor:</h4>
+                <ul>
+                    <li>Mantén un diario del dolor para identificar patrones</li>
+                    <li>Usa enfoques con y sin medicamentos</li>
+                    <li>Crea un ambiente tranquilo y cómodo</li>
+                    <li>Involucra al niño de manera apropiada para su edad</li>
+                    <li>Comunícate regularmente con los proveedores de salud</li>
+                </ul>
+
+                <h4>Recursos adicionales:</h4>
+                <ul>
+                    <li>Técnicas de relajación y respiración</li>
+                    <li>Distracción y entretenimiento</li>
+                    <li>Aplicación de calor/frío según indicación médica</li>
+                    <li>Posicionamiento cómodo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
