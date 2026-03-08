@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluación del Dolor Pediátrico</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Página de Bienvenida -->
     <div id="welcome-page" class="page active">
@@ -16,31 +18,28 @@
                 <div class="star-animation">⭐</div>
             </div>
             <p class="welcome-subtitle">Ayudemos a entender cómo te sientes hoy</p>
-            
+
             <div class="info-card">
-                <p>Esta herramienta está diseñada para ayudar a evaluar el dolor en niños de manera profesional y amigable. Los resultados proporcionarán información valiosa para el equipo médico.</p>
+                <p>Esta herramienta está diseñada para ayudar a evaluar el dolor en niños de manera profesional y
+                    amigable. Los resultados proporcionarán información valiosa para el equipo médico.</p>
             </div>
-            
+
             <div class="setup-steps">
                 <!-- Selección de Edad -->
                 <div class="step-card" id="age-step">
                     <h3>Paso 1: ¿Qué edad tiene el niño/a?</h3>
                     <div class="age-buttons">
-                        <button class="age-btn" data-age="0-2">
+                        <button class="age-btn" data-age="0-3">
                             <span class="age-emoji">👶</span>
-                            <span>0-2 años<br><small>Bebé</small></span>
+                            <span>0-3 años<br><small>Bebé/Preescolar</small></span>
                         </button>
-                        <button class="age-btn" data-age="3-4">
+                        <button class="age-btn" data-age="4-8">
                             <span class="age-emoji">🧒</span>
-                            <span>3-4 años<br><small>Preescolar</small></span>
+                            <span>4-8 años<br><small>Escolar</small></span>
                         </button>
-                        <button class="age-btn" data-age="5-7">
-                            <span class="age-emoji">👦</span>
-                            <span>5-7 años<br><small>Escolar</small></span>
-                        </button>
-                        <button class="age-btn" data-age="8-12">
+                        <button class="age-btn" data-age="9-12">
                             <span class="age-emoji">🧑</span>
-                            <span>8-12 años<br><small>Preadolescente</small></span>
+                            <span>9-12 años<br><small>Preadolescente</small></span>
                         </button>
                         <button class="age-btn" data-age="13-18">
                             <span class="age-emoji">👩</span>
@@ -91,15 +90,11 @@
             </div>
 
             <div class="mapping-info">
-                <p>Marca hasta 4 localizaciones diferentes donde el niño/a siente dolor. Cada dolor se marcará con un color diferente.</p>
+                <p>Toca sobre la imagen en la zona donde el niño/a siente dolor. Puedes marcar hasta 4 localizaciones
+                    diferentes.</p>
             </div>
 
             <div class="body-map-container">
-                <div class="view-selector">
-                    <button id="anterior-view-btn" class="view-btn active">Vista Frontal</button>
-                    <button id="posterior-view-btn" class="view-btn">Vista Posterior</button>
-                </div>
-
                 <div class="pain-markers">
                     <div class="marker-info" data-pain="1">
                         <div class="marker-color" style="background-color: #FF4444;"></div>
@@ -123,60 +118,109 @@
                     </div>
                 </div>
 
-                <div class="body-map-wrapper">
-                    <div id="body-map-anterior" class="body-map active">
-                        <svg width="300" height="500" viewBox="0 0 300 500">
-                            <!-- Figura corporal anterior -->
-                            <circle cx="150" cy="50" r="25" class="body-region" data-region="1" data-name="Cabeza"/>
-                            <circle cx="150" cy="75" r="20" class="body-region" data-region="2" data-name="Cara"/>
-                            <circle cx="150" cy="105" r="15" class="body-region" data-region="3" data-name="Cuello"/>
-                            <circle cx="120" cy="130" r="20" class="body-region" data-region="4" data-name="Hombro Izquierdo"/>
-                            <circle cx="180" cy="130" r="20" class="body-region" data-region="5" data-name="Hombro Derecho"/>
-                            <circle cx="150" cy="160" r="30" class="body-region" data-region="6" data-name="Pecho"/>
-                            <circle cx="95" cy="160" r="18" class="body-region" data-region="7" data-name="Brazo Izquierdo"/>
-                            <circle cx="205" cy="160" r="18" class="body-region" data-region="8" data-name="Brazo Derecho"/>
-                            <circle cx="80" cy="200" r="15" class="body-region" data-region="9" data-name="Antebrazo Izquierdo"/>
-                            <circle cx="220" cy="200" r="15" class="body-region" data-region="10" data-name="Antebrazo Derecho"/>
-                            <circle cx="150" cy="200" r="25" class="body-region" data-region="11" data-name="Abdomen"/>
-                            <circle cx="65" cy="235" r="12" class="body-region" data-region="12" data-name="Mano Izquierda"/>
-                            <circle cx="235" cy="235" r="12" class="body-region" data-region="13" data-name="Mano Derecha"/>
-                            <circle cx="150" cy="240" r="25" class="body-region" data-region="18" data-name="Pelvis"/>
-                            <circle cx="135" cy="290" r="20" class="body-region" data-region="19" data-name="Muslo Izquierdo"/>
-                            <circle cx="165" cy="290" r="20" class="body-region" data-region="20" data-name="Muslo Derecho"/>
-                            <circle cx="135" cy="340" r="18" class="body-region" data-region="21" data-name="Rodilla Izquierda"/>
-                            <circle cx="165" cy="340" r="18" class="body-region" data-region="22" data-name="Rodilla Derecha"/>
-                            <circle cx="135" cy="380" r="18" class="body-region" data-region="23" data-name="Pantorrilla Izquierda"/>
-                            <circle cx="165" cy="380" r="18" class="body-region" data-region="24" data-name="Pantorrilla Derecha"/>
-                            <circle cx="135" cy="445" r="18" class="body-region" data-region="27" data-name="Pie Izquierdo"/>
-                            <circle cx="165" cy="445" r="18" class="body-region" data-region="28" data-name="Pie Derecho"/>
-                        </svg>
-                    </div>
+                <div class="body-map-image-container" id="body-map-image-container">
+                    <img src="dolorpediatria.jpg" alt="Mapa corporal pediátrico" class="body-map-image"
+                        id="body-map-image">
 
-                    <div id="body-map-posterior" class="body-map">
-                        <svg width="300" height="500" viewBox="0 0 300 500">
-                            <!-- Figura corporal posterior -->
-                            <circle cx="150" cy="50" r="25" class="body-region" data-region="29" data-name="Cabeza (posterior)"/>
-                            <circle cx="150" cy="105" r="15" class="body-region" data-region="30" data-name="Cuello (posterior)"/>
-                            <circle cx="120" cy="130" r="20" class="body-region" data-region="31" data-name="Hombro Izq (posterior)"/>
-                            <circle cx="180" cy="130" r="20" class="body-region" data-region="32" data-name="Hombro Der (posterior)"/>
-                            <circle cx="150" cy="150" r="25" class="body-region" data-region="33" data-name="Espalda Alta"/>
-                            <circle cx="95" cy="160" r="18" class="body-region" data-region="34" data-name="Brazo Izq (posterior)"/>
-                            <circle cx="205" cy="160" r="18" class="body-region" data-region="35" data-name="Brazo Der (posterior)"/>
-                            <circle cx="150" cy="190" r="25" class="body-region" data-region="36" data-name="Espalda Media"/>
-                            <circle cx="80" cy="200" r="15" class="body-region" data-region="37" data-name="Antebrazo Izq (posterior)"/>
-                            <circle cx="220" cy="200" r="15" class="body-region" data-region="38" data-name="Antebrazo Der (posterior)"/>
-                            <circle cx="150" cy="220" r="25" class="body-region" data-region="39" data-name="Espalda Baja"/>
-                            <circle cx="65" cy="235" r="12" class="body-region" data-region="40" data-name="Mano Izq (posterior)"/>
-                            <circle cx="235" cy="235" r="12" class="body-region" data-region="41" data-name="Mano Der (posterior)"/>
-                            <circle cx="150" cy="250" r="25" class="body-region" data-region="46" data-name="Glúteos"/>
-                            <circle cx="135" cy="290" r="20" class="body-region" data-region="47" data-name="Muslo Izq (posterior)"/>
-                            <circle cx="165" cy="290" r="20" class="body-region" data-region="48" data-name="Muslo Der (posterior)"/>
-                            <circle cx="135" cy="380" r="18" class="body-region" data-region="51" data-name="Pantorrilla Izq (posterior)"/>
-                            <circle cx="165" cy="380" r="18" class="body-region" data-region="52" data-name="Pantorrilla Der (posterior)"/>
-                            <circle cx="135" cy="445" r="18" class="body-region" data-region="55" data-name="Pie Izq (posterior)"/>
-                            <circle cx="165" cy="445" r="18" class="body-region" data-region="56" data-name="Pie Der (posterior)"/>
-                        </svg>
-                    </div>
+                    <!-- Áreas clicables - Vista Frontal (centro ~20%) -->
+                    <div class="body-region-area" data-region="1" data-name="Cabeza"
+                        style="left:14%;top:5%;width:11%;height:10%"></div>
+                    <div class="body-region-area" data-region="2" data-name="Cuello"
+                        style="left:16%;top:15%;width:7%;height:4%"></div>
+                    <div class="body-region-area" data-region="3" data-name="Hombro Izquierdo"
+                        style="left:9%;top:19%;width:8%;height:5%"></div>
+                    <div class="body-region-area" data-region="4" data-name="Hombro Derecho"
+                        style="left:22%;top:19%;width:8%;height:5%"></div>
+                    <div class="body-region-area" data-region="5" data-name="Pecho"
+                        style="left:14%;top:24%;width:11%;height:8%"></div>
+                    <div class="body-region-area" data-region="6" data-name="Brazo Izquierdo"
+                        style="left:7%;top:25%;width:6%;height:12%"></div>
+                    <div class="body-region-area" data-region="7" data-name="Brazo Derecho"
+                        style="left:26%;top:25%;width:6%;height:12%"></div>
+                    <div class="body-region-area" data-region="8" data-name="Antebrazo Izquierdo"
+                        style="left:4%;top:37%;width:6%;height:10%"></div>
+                    <div class="body-region-area" data-region="9" data-name="Antebrazo Derecho"
+                        style="left:29%;top:37%;width:6%;height:10%"></div>
+                    <div class="body-region-area" data-region="10" data-name="Mano Izquierda"
+                        style="left:2%;top:47%;width:5%;height:6%"></div>
+                    <div class="body-region-area" data-region="11" data-name="Mano Derecha"
+                        style="left:32%;top:47%;width:5%;height:6%"></div>
+                    <div class="body-region-area" data-region="12" data-name="Abdomen"
+                        style="left:14%;top:32%;width:11%;height:10%"></div>
+                    <div class="body-region-area" data-region="13" data-name="Pelvis"
+                        style="left:14%;top:42%;width:11%;height:8%"></div>
+                    <div class="body-region-area" data-region="14" data-name="Muslo Izquierdo"
+                        style="left:14%;top:50%;width:6%;height:14%"></div>
+                    <div class="body-region-area" data-region="15" data-name="Muslo Derecho"
+                        style="left:19%;top:50%;width:6%;height:14%"></div>
+                    <div class="body-region-area" data-region="16" data-name="Rodilla Izquierda"
+                        style="left:14%;top:64%;width:5%;height:5%"></div>
+                    <div class="body-region-area" data-region="17" data-name="Rodilla Derecha"
+                        style="left:20%;top:64%;width:5%;height:5%"></div>
+                    <div class="body-region-area" data-region="18" data-name="Pierna Izquierda"
+                        style="left:14%;top:69%;width:5%;height:14%"></div>
+                    <div class="body-region-area" data-region="19" data-name="Pierna Derecha"
+                        style="left:20%;top:69%;width:5%;height:14%"></div>
+                    <div class="body-region-area" data-region="20" data-name="Pie Izquierdo"
+                        style="left:12%;top:83%;width:7%;height:6%"></div>
+                    <div class="body-region-area" data-region="21" data-name="Pie Derecho"
+                        style="left:20%;top:83%;width:7%;height:6%"></div>
+
+                    <!-- Áreas clicables - Vista Posterior (centro ~56%) -->
+                    <div class="body-region-area" data-region="22" data-name="Nuca"
+                        style="left:56%;top:5%;width:11%;height:10%"></div>
+                    <div class="body-region-area" data-region="23" data-name="Cuello (posterior)"
+                        style="left:58%;top:15%;width:7%;height:4%"></div>
+                    <div class="body-region-area" data-region="24" data-name="Hombro Izq (posterior)"
+                        style="left:51%;top:19%;width:8%;height:5%"></div>
+                    <div class="body-region-area" data-region="25" data-name="Hombro Der (posterior)"
+                        style="left:64%;top:19%;width:8%;height:5%"></div>
+                    <div class="body-region-area" data-region="26" data-name="Espalda Alta"
+                        style="left:56%;top:24%;width:11%;height:8%"></div>
+                    <div class="body-region-area" data-region="27" data-name="Brazo Izq (posterior)"
+                        style="left:49%;top:25%;width:6%;height:12%"></div>
+                    <div class="body-region-area" data-region="28" data-name="Brazo Der (posterior)"
+                        style="left:68%;top:25%;width:6%;height:12%"></div>
+                    <div class="body-region-area" data-region="29" data-name="Espalda Baja"
+                        style="left:56%;top:32%;width:11%;height:10%"></div>
+                    <div class="body-region-area" data-region="30" data-name="Glúteos"
+                        style="left:56%;top:42%;width:11%;height:8%"></div>
+                    <div class="body-region-area" data-region="31" data-name="Muslo Izq (posterior)"
+                        style="left:56%;top:50%;width:6%;height:14%"></div>
+                    <div class="body-region-area" data-region="32" data-name="Muslo Der (posterior)"
+                        style="left:61%;top:50%;width:6%;height:14%"></div>
+                    <div class="body-region-area" data-region="33" data-name="Pierna Izq (posterior)"
+                        style="left:56%;top:69%;width:5%;height:14%"></div>
+                    <div class="body-region-area" data-region="34" data-name="Pierna Der (posterior)"
+                        style="left:62%;top:69%;width:5%;height:14%"></div>
+                    <div class="body-region-area" data-region="35" data-name="Pie Izq (posterior)"
+                        style="left:54%;top:83%;width:7%;height:6%"></div>
+                    <div class="body-region-area" data-region="36" data-name="Pie Der (posterior)"
+                        style="left:62%;top:83%;width:7%;height:6%"></div>
+
+                    <!-- Áreas clicables - Vista Lateral (centro ~90%) -->
+                    <div class="body-region-area" data-region="37" data-name="Cabeza (lateral)"
+                        style="left:84%;top:5%;width:11%;height:10%"></div>
+                    <div class="body-region-area" data-region="38" data-name="Cuello (lateral)"
+                        style="left:86%;top:15%;width:7%;height:4%"></div>
+                    <div class="body-region-area" data-region="39" data-name="Hombro (lateral)"
+                        style="left:83%;top:19%;width:10%;height:5%"></div>
+                    <div class="body-region-area" data-region="40" data-name="Tórax (lateral)"
+                        style="left:84%;top:24%;width:10%;height:8%"></div>
+                    <div class="body-region-area" data-region="41" data-name="Brazo (lateral)"
+                        style="left:79%;top:25%;width:6%;height:18%"></div>
+                    <div class="body-region-area" data-region="42" data-name="Abdomen (lateral)"
+                        style="left:84%;top:32%;width:10%;height:10%"></div>
+                    <div class="body-region-area" data-region="43" data-name="Cadera (lateral)"
+                        style="left:84%;top:42%;width:10%;height:8%"></div>
+                    <div class="body-region-area" data-region="44" data-name="Muslo (lateral)"
+                        style="left:84%;top:50%;width:8%;height:14%"></div>
+                    <div class="body-region-area" data-region="45" data-name="Rodilla (lateral)"
+                        style="left:85%;top:64%;width:6%;height:5%"></div>
+                    <div class="body-region-area" data-region="46" data-name="Pierna (lateral)"
+                        style="left:84%;top:69%;width:7%;height:14%"></div>
+                    <div class="body-region-area" data-region="47" data-name="Pie (lateral)"
+                        style="left:82%;top:83%;width:10%;height:6%"></div>
                 </div>
 
                 <div class="selected-regions">
@@ -300,11 +344,11 @@
                             </label>
                             <label class="score-option">
                                 <input type="radio" name="face" value="2">
-                                <span>Ceño fruncido frecuente o constante, mandíbula apretada, barbilla temblorosa</span>
+                                <span>Ceño fruncido frecuente o constante, mandíbula apretada, barbilla
+                                    temblorosa</span>
                             </label>
                         </div>
                     </div>
-
                     <div class="flacc-category" data-category="legs">
                         <h4>🦵 Piernas</h4>
                         <div class="score-options">
@@ -322,7 +366,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="flacc-category" data-category="activity">
                         <h4>🏃 Actividad</h4>
                         <div class="score-options">
@@ -340,7 +383,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="flacc-category" data-category="cry">
                         <h4>😢 Llanto</h4>
                         <div class="score-options">
@@ -358,7 +400,6 @@
                             </label>
                         </div>
                     </div>
-
                     <div class="flacc-category" data-category="consolability">
                         <h4>🤗 Consolabilidad</h4>
                         <div class="score-options">
@@ -379,33 +420,25 @@
                 </div>
             </div>
 
-            <!-- Escala FPS-R -->
+            <!-- Escala FPS-R con imagen caras.png y slider -->
             <div id="fps-r-scale" class="assessment-scale hidden">
-                <p>Señala la cara que muestra cuánto dolor tienes ahora mismo:</p>
-                <div class="faces-container">
-                    <div class="face-option" data-score="0">
-                        <div class="face">😊</div>
-                        <span>Sin dolor</span>
+                <p class="fps-instruction">Desliza la barra para señalar cuánto dolor tienes ahora mismo:</p>
+                <div class="faces-slider-container">
+                    <div class="faces-image-wrapper">
+                        <img src="caras.png" alt="Escala de caras de dolor" class="faces-image" id="faces-image">
+                        <div class="face-indicator" id="face-indicator"></div>
                     </div>
-                    <div class="face-option" data-score="2">
-                        <div class="face">🙂</div>
-                        <span>Un poco de dolor</span>
+                    <div class="faces-slider-wrapper">
+                        <input type="range" id="fps-slider" min="0" max="10" step="2" value="0">
+                        <div class="faces-labels">
+                            <span>Sin dolor</span>
+                            <span>El mayor dolor</span>
+                        </div>
                     </div>
-                    <div class="face-option" data-score="4">
-                        <div class="face">😐</div>
-                        <span>Un poco más de dolor</span>
-                    </div>
-                    <div class="face-option" data-score="6">
-                        <div class="face">☹️</div>
-                        <span>Aún más dolor</span>
-                    </div>
-                    <div class="face-option" data-score="8">
-                        <div class="face">😣</div>
-                        <span>Mucho dolor</span>
-                    </div>
-                    <div class="face-option" data-score="10">
-                        <div class="face">😭</div>
-                        <span>El mayor dolor posible</span>
+                    <div class="faces-score-display">
+                        <span>Puntuación: </span>
+                        <span id="fps-value" class="fps-score-number">0</span>
+                        <span>/10</span>
                     </div>
                 </div>
             </div>
@@ -432,115 +465,22 @@
                 </div>
             </div>
 
-            <!-- Escala PPP -->
-            <div id="ppp-scale" class="assessment-scale hidden">
-                <p>Califique cada comportamiento basándose en cómo ha estado el niño en la semana pasada:</p>
-                <div class="ppp-items">
-                    <div class="ppp-item">
-                        <h4>🍽️ Comer/Beber</h4>
-                        <div class="ppp-rating">
-                            <label><input type="radio" name="eating" value="0"> Para nada</label>
-                            <label><input type="radio" name="eating" value="1"> Un poco</label>
-                            <label><input type="radio" name="eating" value="2"> Bastante</label>
-                            <label><input type="radio" name="eating" value="3"> Mucho</label>
-                        </div>
-                    </div>
-                    <div class="ppp-item">
-                        <h4>😊 Social/Emocional</h4>
-                        <div class="ppp-rating">
-                            <label><input type="radio" name="social" value="0"> Para nada</label>
-                            <label><input type="radio" name="social" value="1"> Un poco</label>
-                            <label><input type="radio" name="social" value="2"> Bastante</label>
-                            <label><input type="radio" name="social" value="3"> Mucho</label>
-                        </div>
-                    </div>
-                    <div class="ppp-item">
-                        <h4>😐 Expresión Facial</h4>
-                        <div class="ppp-rating">
-                            <label><input type="radio" name="facial" value="0"> Para nada</label>
-                            <label><input type="radio" name="facial" value="1"> Un poco</label>
-                            <label><input type="radio" name="facial" value="2"> Bastante</label>
-                            <label><input type="radio" name="facial" value="3"> Mucho</label>
-                        </div>
-                    </div>
-                    <div class="ppp-item">
-                        <h4>🏃 Nivel de Actividad</h4>
-                        <div class="ppp-rating">
-                            <label><input type="radio" name="activitylevel" value="0"> Para nada</label>
-                            <label><input type="radio" name="activitylevel" value="1"> Un poco</label>
-                            <label><input type="radio" name="activitylevel" value="2"> Bastante</label>
-                            <label><input type="radio" name="activitylevel" value="3"> Mucho</label>
-                        </div>
+            <!-- Escala NCCPC-R Completa (30 ítems) -->
+            <div id="nccpc-full-scale" class="assessment-scale hidden">
+                <div class="nccpc-full-instructions">
+                    <p>Observe al niño durante <strong>2 horas</strong> y marque cada comportamiento según su
+                        frecuencia.<br>
+                        Para alimentación/sueño, puede basarse en el comportamiento del día completo.</p>
+                    <div class="nccpc-legend">
+                        <span class="legend-item">0 = Nunca</span>
+                        <span class="legend-item">1 = Sólo un poco</span>
+                        <span class="legend-item">2 = Bastante a menudo</span>
+                        <span class="legend-item">3 = Con mucha frecuencia</span>
+                        <span class="legend-item">NA = No aplicable</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Escala NCCPC-R -->
-            <div id="nccpc-r-scale" class="assessment-scale hidden">
-                <p>Observe al niño durante 2 horas y marque cada comportamiento según su frecuencia:</p>
-                <div class="nccpc-categories">
-                    <div class="nccpc-category">
-                        <h4>🗣️ Vocal</h4>
-                        <div class="nccpc-items">
-                            <div class="nccpc-item">
-                                <span>Gemidos, llantos</span>
-                                <div class="nccpc-rating">
-                                    <label><input type="radio" name="vocal1" value="0"> No</label>
-                                    <label><input type="radio" name="vocal1" value="1"> Un poco</label>
-                                    <label><input type="radio" name="vocal1" value="2"> Moderado</label>
-                                    <label><input type="radio" name="vocal1" value="3"> Mucho</label>
-                                </div>
-                            </div>
-                            <div class="nccpc-item">
-                                <span>Gritos, chillidos</span>
-                                <div class="nccpc-rating">
-                                    <label><input type="radio" name="vocal2" value="0"> No</label>
-                                    <label><input type="radio" name="vocal2" value="1"> Un poco</label>
-                                    <label><input type="radio" name="vocal2" value="2"> Moderado</label>
-                                    <label><input type="radio" name="vocal2" value="3"> Mucho</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="nccpc-category">
-                        <h4>🤝 Social/Emocional</h4>
-                        <div class="nccpc-items">
-                            <div class="nccpc-item">
-                                <span>No coopera, irritable</span>
-                                <div class="nccpc-rating">
-                                    <label><input type="radio" name="social1" value="0"> No</label>
-                                    <label><input type="radio" name="social1" value="1"> Un poco</label>
-                                    <label><input type="radio" name="social1" value="2"> Moderado</label>
-                                    <label><input type="radio" name="social1" value="3"> Mucho</label>
-                                </div>
-                            </div>
-                            <div class="nccpc-item">
-                                <span>Menos interacción social, silencioso</span>
-                                <div class="nccpc-rating">
-                                    <label><input type="radio" name="social2" value="0"> No</label>
-                                    <label><input type="radio" name="social2" value="1"> Un poco</label>
-                                    <label><input type="radio" name="social2" value="2"> Moderado</label>
-                                    <label><input type="radio" name="social2" value="3"> Mucho</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="nccpc-category">
-                        <h4>😐 Facial</h4>
-                        <div class="nccpc-items">
-                            <div class="nccpc-item">
-                                <span>Cara tensa, muecas</span>
-                                <div class="nccpc-rating">
-                                    <label><input type="radio" name="facial1" value="0"> No</label>
-                                    <label><input type="radio" name="facial1" value="1"> Un poco</label>
-                                    <label><input type="radio" name="facial1" value="2"> Moderado</label>
-                                    <label><input type="radio" name="facial1" value="3"> Mucho</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="nccpc-full-items" class="nccpc-categories">
+                    <!-- Populated dynamically by JS -->
                 </div>
             </div>
 
@@ -611,11 +551,12 @@
             </div>
             <div class="modal-body">
                 <h4>¿Por qué es importante la evaluación del dolor?</h4>
-                <p>La evaluación regular del dolor es crucial para un manejo efectivo del dolor en niños. Se utilizan diferentes escalas según la edad del niño y su capacidad para comunicarse.</p>
-                
+                <p>La evaluación regular del dolor es crucial para un manejo efectivo del dolor en niños. Se utilizan
+                    diferentes escalas según la edad del niño y su capacidad para comunicarse.</p>
+
                 <h4>Acerca de esta evaluación:</h4>
                 <div id="scale-explanation"></div>
-                
+
                 <h4>Consejos para el manejo del dolor:</h4>
                 <ul>
                     <li>Mantén un diario del dolor para identificar patrones</li>
@@ -638,4 +579,5 @@
 
     <script src="app.js"></script>
 </body>
+
 </html>

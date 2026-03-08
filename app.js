@@ -2,11 +2,11 @@
 let currentAssessment = {
     age: null,
     pathology: null,
-    painLocations: [], // Array de hasta 4 localizaciones
-    painCharacteristics: {}, // Características por localización
+    painLocations: [],
+    painCharacteristics: {},
     assessmentScales: {},
-    painScores: {}, // Puntuaciones por localización
-    painTypes: {}, // Clasificación por localización
+    painScores: {},
+    painTypes: {},
     currentPainIndex: 0
 };
 
@@ -20,7 +20,7 @@ const painScales = {
     },
     fps_r: {
         name: "FPS-R (Escala de Caras de Dolor Revisada)",
-        description: "Señala la cara que muestra cuánto dolor tienes ahora mismo. No hay respuestas correctas o incorrectas.",
+        description: "Desliza la barra para señalar cuánto dolor tienes ahora mismo. No hay respuestas correctas o incorrectas.",
         maxScore: 10
     },
     nrs: {
@@ -28,31 +28,100 @@ const painScales = {
         description: "Por favor califica tu dolor del 0 (sin dolor) al 10 (el peor dolor posible). Mueve el deslizador para mostrar cómo te sientes.",
         maxScore: 10
     },
-    ppp: {
-        name: "PPP (Perfil de Dolor Pediátrico)",
-        description: "Esta escala nos ayuda a entender el dolor en niños que tienen dificultad para comunicarse. Por favor piense en la semana pasada y califique cada comportamiento.",
-        maxScore: 12,
-        categories: ['eating', 'social', 'facial', 'activitylevel']
-    },
-    nccpc_r: {
-        name: "NCCPC-R (Lista de Verificación del Dolor Revisada para Niños No Comunicativos)",
-        description: "Esta escala está diseñada para niños que no pueden comunicar su dolor debido a discapacidades cognitivas. Observe durante 2 horas.",
-        maxScore: 30,
-        categories: ['vocal1', 'vocal2', 'social1', 'social2', 'facial1']
+    nccpc_full: {
+        name: "NCCPC-R (Lista de Verificación del Dolor para Niños No Comunicativos - Revisada)",
+        description: "Escala validada en castellano con 30 ítems. Observe al niño durante 2 horas y marque la frecuencia de cada comportamiento.",
+        maxScore: 90
     }
 };
 
-// Matriz de selección de escalas
+// Ítems NCCPC-R completa (30 ítems, 7 categorías)
+const nccpcFullDefinition = [
+    {
+        title: '🗣️ I. Vocalizaciones',
+        items: [
+            { id: 'nf_vocal1', text: 'Quejidos, lamentos, gemidos (bastante suaves)' },
+            { id: 'nf_vocal2', text: 'Llanto (moderadamente fuerte)' },
+            { id: 'nf_vocal3', text: 'Gritos, chillidos (muy fuertes)' },
+            { id: 'nf_vocal4', text: 'Sonido o expresión específica de dolor' }
+        ]
+    },
+    {
+        title: '🤝 II. Relación/Contacto',
+        items: [
+            { id: 'nf_rel1', text: 'Poco cooperativo, malhumorado, irritable, insatisfecho' },
+            { id: 'nf_rel2', text: 'Menos contacto con los demás, retraído' },
+            { id: 'nf_rel3', text: 'Busca consuelo o cercanía física' },
+            { id: 'nf_rel4', text: 'Difícil de distraer, no se puede satisfacer o distraer' }
+        ]
+    },
+    {
+        title: '😐 III. Expresión Facial',
+        items: [
+            { id: 'nf_face1', text: 'Ceño fruncido' },
+            { id: 'nf_face2', text: 'Movimientos oculares (entrecerrar, abrir mucho, moverlos)' },
+            { id: 'nf_face3', text: 'Comisuras de la boca hacia abajo, no sonríe' },
+            { id: 'nf_face4', text: 'Labios: pucheros, apretados, temblorosos' },
+            { id: 'nf_face5', text: 'Castañeteo/rechinar de dientes, masticación, sacar la lengua' }
+        ]
+    },
+    {
+        title: '🏃 IV. Actividad',
+        items: [
+            { id: 'nf_act1', text: 'Inquieto, agitado, se retuerce, se balancea' },
+            { id: 'nf_act2', text: 'Movimientos limitados, lento, apático, rígido' }
+        ]
+    },
+    {
+        title: '🦴 V. Postura Corporal y Extremidades',
+        items: [
+            { id: 'nf_pos1', text: 'Flácido, laxo' },
+            { id: 'nf_pos2', text: 'Rígido, espástico, tenso, inmovilidad' },
+            { id: 'nf_pos3', text: 'Agitar brazos/piernas o tocar zona dolorida' },
+            { id: 'nf_pos4', text: 'Protege, favorece o evita usar la zona dolorida' },
+            { id: 'nf_pos5', text: 'Retirada refleja, reacciona sensiblemente al tacto' },
+            { id: 'nf_pos6', text: 'Mueve el cuerpo para indicar dolor (echa cabeza atrás, encoge rodillas…)' }
+        ]
+    },
+    {
+        title: '💓 VI. Signos Fisiológicos',
+        items: [
+            { id: 'nf_fis1', text: 'Temblores, escalofríos' },
+            { id: 'nf_fis2', text: 'Color de piel alterado, palidez' },
+            { id: 'nf_fis3', text: 'Sudoración, transpiración' },
+            { id: 'nf_fis4', text: 'Lágrimas' },
+            { id: 'nf_fis5', text: 'Inhalación brusca, jadeos' },
+            { id: 'nf_fis6', text: 'Contener la respiración' }
+        ]
+    },
+    {
+        title: '🍽️ VII. Alimentación/Sueño',
+        items: [
+            { id: 'nf_ali1', text: 'Come menos, sin interés en comer' },
+            { id: 'nf_ali2', text: 'Duerme más de lo habitual' },
+            { id: 'nf_ali3', text: 'Duerme menos de lo habitual' }
+        ]
+    }
+];
+
+// Obtener todos los IDs de ítems NCCPC-R
+function getAllNccpcItemIds() {
+    const ids = [];
+    nccpcFullDefinition.forEach(cat => {
+        cat.items.forEach(item => ids.push(item.id));
+    });
+    return ids;
+}
+
+// Matriz de selección de escalas (rangos fusionados)
 const scaleMatrix = {
-    '0-2_neurological': ['flacc'],
-    '0-2_other': ['flacc'],
-    '3-4_neurological': ['flacc'], // r-FLACC simplificado
-    '3-4_other': ['fps_r'],
-    '5-7_neurological': ['ppp', 'nccpc_r'],
-    '5-7_other': ['fps_r'],
-    '8-12_neurological': ['ppp', 'nccpc_r'],
-    '8-12_other': ['nrs'],
-    '13-18_neurological': ['ppp', 'nccpc_r'],
+    '0-3_neurological': ['flacc'],
+    '0-3_other': ['flacc'],
+    '4-8_neurological': ['nccpc_full'],
+    '4-8_other': ['fps_r'],
+    '9-12_neurological': ['nccpc_full'],
+    '9-12_other': ['nrs'],
+    '13-18_neurological': ['nccpc_full'],
     '13-18_other': ['nrs']
 };
 
@@ -83,12 +152,12 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado, inicializando aplicación...');
     initializeElements();
     initializeEventListeners();
+    renderNccpcFullScale();
     showPage('welcome');
 });
 
 function initializeElements() {
     elements = {
-        // Botones de navegación principal
         ageButtons: document.querySelectorAll('.age-btn'),
         pathologyButtons: document.querySelectorAll('.pathology-btn'),
         continueToMapping: document.getElementById('continue-to-mapping'),
@@ -99,12 +168,9 @@ function initializeElements() {
         finishCharacteristics: document.getElementById('finish-characteristics'),
         backToCharacteristics: document.getElementById('back-to-characteristics'),
         
-        // Elementos de mapeo corporal
-        anteriorViewBtn: document.getElementById('anterior-view-btn'),
-        posteriorViewBtn: document.getElementById('posterior-view-btn'),
-        bodyMapAnterior: document.getElementById('body-map-anterior'),
-        bodyMapPosterior: document.getElementById('body-map-posterior'),
-        bodyRegions: document.querySelectorAll('.body-region'),
+        // Elementos de mapeo corporal (ahora son divs sobre la imagen)
+        bodyMapImageContainer: document.getElementById('body-map-image-container'),
+        bodyRegions: document.querySelectorAll('.body-region-area'),
         regionsList: document.getElementById('regions-list'),
         removeMarkers: document.querySelectorAll('.remove-marker'),
         
@@ -118,9 +184,12 @@ function initializeElements() {
         completeAssessment: document.getElementById('complete-assessment'),
         nrsSlider: document.getElementById('nrs-slider'),
         nrsValue: document.getElementById('nrs-value'),
+        fpsSlider: document.getElementById('fps-slider'),
+        fpsValue: document.getElementById('fps-value'),
+        faceIndicator: document.getElementById('face-indicator'),
         
         // Elementos de resultados
-        locationsummary: document.getElementById('locations-summary'),
+        locationsSummary: document.getElementById('locations-summary'),
         painTypesSummary: document.getElementById('pain-types-summary'),
         generateReport: document.getElementById('generate-report'),
         newAssessment: document.getElementById('new-assessment'),
@@ -220,20 +289,12 @@ function initializeEventListeners() {
         });
     }
 
-    // Mapeo corporal
-    if (elements.anteriorViewBtn) {
-        elements.anteriorViewBtn.addEventListener('click', () => switchBodyView('anterior'));
-    }
-
-    if (elements.posteriorViewBtn) {
-        elements.posteriorViewBtn.addEventListener('click', () => switchBodyView('posterior'));
-    }
-
-    // Regiones del cuerpo
+    // Regiones del cuerpo (divs sobre imagen)
     if (elements.bodyRegions) {
         elements.bodyRegions.forEach(region => {
             region.addEventListener('click', (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 toggleBodyRegion(region);
             });
         });
@@ -279,13 +340,10 @@ function initializeEventListeners() {
         elements.nrsSlider.addEventListener('input', updateNRSValue);
     }
 
-    // Selección de caras
-    document.querySelectorAll('.face-option').forEach(face => {
-        face.addEventListener('click', (e) => {
-            e.preventDefault();
-            selectFace(face.dataset.score);
-        });
-    });
+    // Slider FPS-R (caras)
+    if (elements.fpsSlider) {
+        elements.fpsSlider.addEventListener('input', updateFPSValue);
+    }
 
     // Cambios en radio buttons
     document.addEventListener('change', handleScoreChange);
@@ -351,6 +409,40 @@ function initializeEventListeners() {
     console.log('Event listeners inicializados');
 }
 
+// Renderizar la escala NCCPC-R completa dinámicamente
+function renderNccpcFullScale() {
+    const container = document.getElementById('nccpc-full-items');
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    nccpcFullDefinition.forEach(category => {
+        const catDiv = document.createElement('div');
+        catDiv.className = 'nccpc-category';
+
+        let catHTML = `<h4>${category.title}</h4><div class="nccpc-items">`;
+
+        category.items.forEach(item => {
+            catHTML += `
+                <div class="nccpc-item">
+                    <span class="nccpc-item-text">${item.text}</span>
+                    <div class="nccpc-rating">
+                        <label><input type="radio" name="${item.id}" value="0"> 0</label>
+                        <label><input type="radio" name="${item.id}" value="1"> 1</label>
+                        <label><input type="radio" name="${item.id}" value="2"> 2</label>
+                        <label><input type="radio" name="${item.id}" value="3"> 3</label>
+                        <label><input type="radio" name="${item.id}" value="NA"> NA</label>
+                    </div>
+                </div>
+            `;
+        });
+
+        catHTML += '</div>';
+        catDiv.innerHTML = catHTML;
+        container.appendChild(catDiv);
+    });
+}
+
 function selectAge(age) {
     console.log('Seleccionando edad:', age);
     currentAssessment.age = age;
@@ -387,32 +479,16 @@ function updateContinueButton() {
     }
 }
 
-function switchBodyView(view) {
-    if (view === 'anterior') {
-        elements.anteriorViewBtn.classList.add('active');
-        elements.posteriorViewBtn.classList.remove('active');
-        elements.bodyMapAnterior.classList.add('active');
-        elements.bodyMapPosterior.classList.remove('active');
-    } else {
-        elements.posteriorViewBtn.classList.add('active');
-        elements.anteriorViewBtn.classList.remove('active');
-        elements.bodyMapPosterior.classList.add('active');
-        elements.bodyMapAnterior.classList.remove('active');
-    }
-}
-
 function toggleBodyRegion(region) {
     const regionId = region.dataset.region;
     const regionName = region.dataset.name;
     
     if (region.classList.contains('marked')) {
-        // Remover marcador existente
         const painIndex = getPainIndexForRegion(regionId);
         if (painIndex !== -1) {
             removePainLocation(painIndex + 1);
         }
     } else {
-        // Agregar nuevo marcador si hay espacio
         if (currentAssessment.painLocations.length < 4) {
             addPainLocation(regionId, regionName);
         } else {
@@ -433,13 +509,13 @@ function addPainLocation(regionId, regionName) {
     });
     
     // Marcar región en el mapa
-    const region = document.querySelector(`[data-region="${regionId}"]`);
+    const region = document.querySelector(`.body-region-area[data-region="${regionId}"]`);
     if (region) {
         region.classList.add('marked', `pain-${painColor.id}`);
     }
     
     // Activar marcador en la UI
-    const markerInfo = document.querySelector(`[data-pain="${painColor.id}"]`);
+    const markerInfo = document.querySelector(`.marker-info[data-pain="${painColor.id}"]`);
     if (markerInfo) {
         markerInfo.classList.add('active');
     }
@@ -454,13 +530,13 @@ function removePainLocation(painId) {
         const location = currentAssessment.painLocations[painIndex];
         
         // Remover marcador del mapa
-        const region = document.querySelector(`[data-region="${location.id}"]`);
+        const region = document.querySelector(`.body-region-area[data-region="${location.id}"]`);
         if (region) {
             region.classList.remove('marked', `pain-${painId}`);
         }
         
         // Desactivar marcador en la UI
-        const markerInfo = document.querySelector(`[data-pain="${painId}"]`);
+        const markerInfo = document.querySelector(`.marker-info[data-pain="${painId}"]`);
         if (markerInfo) {
             markerInfo.classList.remove('active');
         }
@@ -479,20 +555,17 @@ function removePainLocation(painId) {
 }
 
 function reorganizePainLocations() {
-    // Reorganizar los colores para que no haya huecos
     currentAssessment.painLocations.forEach((location, index) => {
         const newColorId = index + 1;
         const newColor = painColors[index];
         
         if (location.colorId !== newColorId) {
-            // Actualizar marcador en el mapa
-            const region = document.querySelector(`[data-region="${location.id}"]`);
+            const region = document.querySelector(`.body-region-area[data-region="${location.id}"]`);
             if (region) {
                 region.classList.remove(`pain-${location.colorId}`);
                 region.classList.add(`pain-${newColorId}`);
             }
             
-            // Actualizar datos
             if (currentAssessment.painCharacteristics[location.colorId]) {
                 currentAssessment.painCharacteristics[newColorId] = currentAssessment.painCharacteristics[location.colorId];
                 delete currentAssessment.painCharacteristics[location.colorId];
@@ -513,7 +586,6 @@ function reorganizePainLocations() {
         }
     });
     
-    // Actualizar UI de marcadores
     document.querySelectorAll('.marker-info').forEach((marker, index) => {
         if (index < currentAssessment.painLocations.length) {
             marker.classList.add('active');
@@ -547,7 +619,6 @@ function updateNavigationButtons() {
     const hasLocations = currentAssessment.painLocations.length > 0;
     
     if (currentAssessment.pathology === 'other') {
-        // Ir a características del dolor
         if (elements.continueToCharacteristics) {
             elements.continueToCharacteristics.classList.toggle('hidden', !hasLocations);
         }
@@ -555,7 +626,6 @@ function updateNavigationButtons() {
             elements.continueToAssessment.classList.add('hidden');
         }
     } else {
-        // Ir directamente a evaluación
         if (elements.continueToAssessment) {
             elements.continueToAssessment.classList.toggle('hidden', !hasLocations);
         }
@@ -595,12 +665,10 @@ function setupPainCharacteristics() {
 function selectPainForCharacteristics(painIndex) {
     currentAssessment.currentPainIndex = painIndex;
     
-    // Actualizar botones
     document.querySelectorAll('.pain-selector-btn').forEach((btn, index) => {
         btn.classList.toggle('active', index === painIndex);
     });
     
-    // Mostrar características seleccionadas para este dolor
     showCharacteristicsForCurrentPain();
 }
 
@@ -635,7 +703,6 @@ function toggleCharacteristic(item) {
         item.classList.add('selected');
     }
     
-    // Clasificar tipo de dolor basado en características
     classifyPainType(painId);
 }
 
@@ -703,12 +770,10 @@ function setupAssessmentSelectors() {
 }
 
 function selectPainForAssessment(painIndex) {
-    // Guardar evaluación actual antes de cambiar
     saveCurrentAssessment();
     
     currentAssessment.currentPainIndex = painIndex;
     
-    // Actualizar botones
     document.querySelectorAll('.assessment-selector-btn').forEach((btn, index) => {
         btn.classList.toggle('active', index === painIndex);
     });
@@ -731,7 +796,14 @@ function showAssessmentForCurrentPain() {
     document.querySelectorAll('.assessment-scale').forEach(el => el.classList.add('hidden'));
     
     // Mostrar escala apropiada
-    const scaleElement = document.getElementById(`${primaryScale.replace('_', '-')}-scale`);
+    let scaleElementId;
+    if (primaryScale === 'nccpc_full') {
+        scaleElementId = 'nccpc-full-scale';
+    } else {
+        scaleElementId = `${primaryScale.replace('_', '-')}-scale`;
+    }
+    
+    const scaleElement = document.getElementById(scaleElementId);
     if (scaleElement) {
         scaleElement.classList.remove('hidden');
     }
@@ -759,21 +831,17 @@ function saveCurrentAssessment() {
             return sum + (input ? parseInt(input.value) : 0);
         }, 0);
     } else if (primaryScale === 'fps_r') {
-        const selected = document.querySelector('.face-option.selected');
-        score = selected ? parseInt(selected.dataset.score) : 0;
+        score = elements.fpsSlider ? parseInt(elements.fpsSlider.value) : 0;
     } else if (primaryScale === 'nrs') {
         score = elements.nrsSlider ? parseInt(elements.nrsSlider.value) : 0;
-    } else if (primaryScale === 'ppp') {
-        const categories = ['eating', 'social', 'facial', 'activitylevel'];
-        score = categories.reduce((sum, cat) => {
-            const input = document.querySelector(`input[name="${cat}"]:checked`);
-            return sum + (input ? parseInt(input.value) : 0);
-        }, 0);
-    } else if (primaryScale === 'nccpc_r') {
-        const categories = ['vocal1', 'vocal2', 'social1', 'social2', 'facial1'];
-        score = categories.reduce((sum, cat) => {
-            const input = document.querySelector(`input[name="${cat}"]:checked`);
-            return sum + (input ? parseInt(input.value) : 0);
+    } else if (primaryScale === 'nccpc_full') {
+        const allIds = getAllNccpcItemIds();
+        score = allIds.reduce((sum, itemId) => {
+            const input = document.querySelector(`input[name="${itemId}"]:checked`);
+            if (input && input.value !== 'NA') {
+                return sum + parseInt(input.value);
+            }
+            return sum;
         }, 0);
     }
     
@@ -793,12 +861,15 @@ function restoreAssessmentValues() {
     
     if (!savedScore) return;
     
-    // Restaurar valores según la escala
     if (savedScore.scale === 'nrs' && elements.nrsSlider && elements.nrsValue) {
         elements.nrsSlider.value = savedScore.score;
         elements.nrsValue.textContent = savedScore.score;
     }
-    // Aquí se podrían restaurar otros tipos de escalas si fuera necesario
+    if (savedScore.scale === 'fps_r' && elements.fpsSlider && elements.fpsValue) {
+        elements.fpsSlider.value = savedScore.score;
+        elements.fpsValue.textContent = savedScore.score;
+        updateFaceIndicator(savedScore.score);
+    }
 }
 
 function updateAssessmentButtons() {
@@ -834,19 +905,32 @@ function updateNRSValue() {
     }
 }
 
-function selectFace(score) {
-    document.querySelectorAll('.face-option').forEach(face => face.classList.remove('selected'));
-    const selectedFace = document.querySelector(`[data-score="${score}"]`);
-    if (selectedFace) {
-        selectedFace.classList.add('selected');
+function updateFPSValue() {
+    const value = elements.fpsSlider.value;
+    if (elements.fpsValue) {
+        elements.fpsValue.textContent = value;
     }
+    updateFaceIndicator(parseInt(value));
+}
+
+function updateFaceIndicator(score) {
+    if (!elements.faceIndicator) return;
+    // Las 6 caras están distribuidas uniformemente en la imagen
+    // score: 0, 2, 4, 6, 8, 10 -> posiciones: 0, 1, 2, 3, 4, 5
+    const faceIndex = score / 2;
+    const percentage = (faceIndex / 5) * 100;
+    // Ajustar para centrar el indicador sobre cada cara
+    const faceWidth = 100 / 6; // Cada cara ocupa ~16.67% del ancho
+    const offset = faceWidth / 2;
+    const position = (faceIndex * faceWidth) + offset;
+    elements.faceIndicator.style.left = `${position}%`;
+    elements.faceIndicator.style.display = 'block';
 }
 
 function handleScoreChange(event) {
     if (event.target.type === 'radio') {
-        // Animar la categoría seleccionada
         const categoryElement = event.target.closest('.flacc-category') || 
-                              event.target.closest('.ppp-item') || 
+                              event.target.closest('.nccpc-item') || 
                               event.target.closest('.nccpc-category');
         if (categoryElement) {
             categoryElement.style.animation = 'none';
@@ -863,9 +947,9 @@ function showResults() {
 }
 
 function updateLocationsSummary() {
-    if (!elements.locationsummary) return;
+    if (!elements.locationsSummary) return;
     
-    elements.locationsummary.innerHTML = '';
+    elements.locationsSummary.innerHTML = '';
     
     currentAssessment.painLocations.forEach(location => {
         const scoreData = currentAssessment.painScores[location.colorId];
@@ -883,7 +967,7 @@ function updateLocationsSummary() {
                 <span class="pain-type ${painType}">${getPainTypeLabel(painType)}</span>
             </div>
         `;
-        elements.locationsummary.appendChild(item);
+        elements.locationsSummary.appendChild(item);
     });
 }
 
@@ -1035,13 +1119,11 @@ function getPainInterpretation(score, scale) {
         if (score <= 3) return "Dolor leve";
         if (score <= 6) return "Dolor moderado";
         return "Dolor severo";
-    } else if (scale === 'ppp') {
-        if (score <= 4) return "Sin dolor significativo";
-        if (score <= 8) return "Dolor leve a moderado probable";
-        return "Dolor moderado a severo probable";
-    } else if (scale === 'nccpc_r') {
+    } else if (scale === 'nccpc_full') {
         if (score < 7) return "Sin dolor significativo";
-        return "Dolor presente";
+        if (score < 11) return "Dolor leve";
+        if (score < 20) return "Dolor moderado";
+        return "Dolor severo";
     }
     
     return "Evaluación completada";
@@ -1111,13 +1193,14 @@ function resetAssessment() {
         currentPainIndex: 0
     };
     
-    // Resetear UI
-    document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
-    document.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.marked').forEach(el => {
+    // Resetear UI - solo resetear las clases específicas de selección
+    document.querySelectorAll('.age-btn.selected, .pathology-btn.selected').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.characteristic-item.selected').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('.body-region-area.marked').forEach(el => {
         el.classList.remove('marked');
         painColors.forEach(color => el.classList.remove(`pain-${color.id}`));
     });
+    document.querySelectorAll('.marker-info.active').forEach(el => el.classList.remove('active'));
     
     // Ocultar elementos
     if (elements.pathologyStep) elements.pathologyStep.classList.add('hidden');
@@ -1129,6 +1212,9 @@ function resetAssessment() {
     document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
     if (elements.nrsSlider) elements.nrsSlider.value = 0;
     if (elements.nrsValue) elements.nrsValue.textContent = '0';
+    if (elements.fpsSlider) elements.fpsSlider.value = 0;
+    if (elements.fpsValue) elements.fpsValue.textContent = '0';
+    if (elements.faceIndicator) elements.faceIndicator.style.display = 'none';
     
     // Limpiar listas
     if (elements.regionsList) elements.regionsList.innerHTML = '';
