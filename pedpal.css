@@ -1,0 +1,408 @@
+/* ====== Dolor pediátrico — capa de identidad PEDPAL ======
+ * Carga DESPUÉS de style.css. Sobrescribe la paleta y la tipografía con
+ * el sistema PEDPAL (igual que Dietoterápicos HIUNJ y KetoPal) y añade la
+ * cabecera sticky con franja + la barra inferior fija en móvil. No toca
+ * la lógica de páginas ni los widgets (mapa corporal, caras, NRS, FLACC,
+ * NCCPC-R), solo su estética.
+ * -------------------------------------------------------------------- */
+
+/* Fuentes PEDPAL */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap");
+
+/* Forzar modo claro en todo el documento (igual que Dietoterápicos) */
+:root,
+:root[data-color-scheme="dark"] {
+  color-scheme: light !important;
+
+  /* Tokens PEDPAL */
+  --pp-orange: #f28c20;
+  --pp-green: #96c93e;
+  --pp-fuchsia: #cd2e94;
+  --pp-blue: #32b7e4;
+  --pp-brown: #443329;
+  --pp-fuchsia-deep: #b22f7f;
+  --pp-blue-700: #147495;
+  --pp-ink: #021228;
+  --pp-ink-muted: #021228d1;
+  --pp-surface: #ffffff;
+  --pp-surface-alt: #f1f1f1;
+  --pp-line: #0212282b;
+
+  --f-display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Open Sans", "Segoe UI", Arial, sans-serif;
+
+  /* Sobrescribe los tokens semánticos del sistema original */
+  --color-background: var(--pp-surface) !important;
+  --color-surface: var(--pp-surface) !important;
+  --color-text: var(--pp-ink) !important;
+  --color-text-secondary: var(--pp-ink-muted) !important;
+  --color-primary: var(--pp-ink) !important;
+  --color-primary-hover: var(--pp-brown) !important;
+  --color-primary-active: var(--pp-brown) !important;
+  --color-btn-primary-text: #ffffff !important;
+  --color-secondary: var(--pp-surface-alt) !important;
+  --color-secondary-hover: #e8e8e8 !important;
+  --color-secondary-active: #e0e0e0 !important;
+  --color-border: var(--pp-line) !important;
+  --color-card-border: var(--pp-line) !important;
+  --color-card-border-inner: var(--pp-line) !important;
+  --color-error: var(--pp-fuchsia-deep) !important;
+  --color-success: var(--pp-blue-700) !important;
+  --color-warning: var(--pp-orange) !important;
+  --color-info: var(--pp-blue-700) !important;
+  --color-focus-ring: rgba(2, 18, 40, 0.4) !important;
+  --focus-outline: 2px solid var(--pp-ink) !important;
+
+  --font-family-base: var(--f-body) !important;
+}
+
+/* Desactivar el esquema oscuro del CSS original */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-force-dark]) {
+    color-scheme: light !important;
+    --color-background: var(--pp-surface) !important;
+    --color-surface: var(--pp-surface) !important;
+    --color-text: var(--pp-ink) !important;
+    --color-text-secondary: var(--pp-ink-muted) !important;
+    --color-primary: var(--pp-ink) !important;
+    --color-btn-primary-text: #ffffff !important;
+    --color-border: var(--pp-line) !important;
+    --color-card-border: var(--pp-line) !important;
+    --color-card-border-inner: var(--pp-line) !important;
+  }
+}
+
+html {
+  font-family: var(--f-body);
+}
+
+body {
+  background: var(--pp-surface);
+  color: var(--pp-ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+/* Tipografía PEDPAL */
+h1, h2, h3, h4, h5, h6,
+.welcome-header h1,
+.step-card h3 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  color: var(--pp-ink);
+  letter-spacing: -0.01em;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: max(1rem, 16px);
+}
+
+/* ---------- Franja multicolor PEDPAL ---------- */
+.franja {
+  display: flex;
+  height: 4px;
+  width: 100%;
+}
+.franja.fina { height: 3px; }
+.franja i { flex: 1; display: block; }
+.franja i:nth-child(1) { background: var(--pp-orange); }
+.franja i:nth-child(2) { background: var(--pp-green); }
+.franja i:nth-child(3) { background: var(--pp-fuchsia); }
+.franja i:nth-child(4) { background: var(--pp-blue); }
+.franja i:nth-child(5) { background: var(--pp-brown); }
+
+/* ---------- Cabecera sticky al estilo Dietoterápicos ---------- */
+.pp-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--pp-surface);
+  padding-top: env(safe-area-inset-top);
+}
+.pp-header .bar {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.pp-brand { text-decoration: none; color: inherit; display: block; }
+.pp-brand h1 {
+  font-family: var(--f-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--pp-ink);
+  letter-spacing: -0.01em;
+}
+.pp-brand h1 span { color: var(--pp-blue-700); }
+.pp-brand p {
+  font-family: var(--f-display);
+  font-weight: 500;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  color: var(--pp-brown);
+  margin: 2px 0 0;
+}
+
+/* ---------- Navegación superior (desktop) ---------- */
+.pp-top-nav { display: none; }
+@media (min-width: 1024px) {
+  .pp-top-nav { display: block; }
+  .pp-top-nav ul {
+    list-style: none; margin: 0; padding: 0;
+    display: flex; gap: 4px;
+  }
+  .pp-top-nav button {
+    display: inline-flex; align-items: center; gap: 8px;
+    min-height: 44px; padding: 0 16px;
+    background: none; border: 0; border-radius: 100px;
+    color: var(--pp-ink); cursor: pointer;
+    font-family: var(--f-body); font-weight: 500; font-size: 0.95rem;
+  }
+  .pp-top-nav button:hover { background: var(--pp-surface-alt); }
+  .pp-top-nav button[aria-current="page"] {
+    background: var(--pp-ink); color: #fff; font-weight: 600;
+  }
+  .pp-top-nav button[disabled] { opacity: 0.5; cursor: not-allowed; }
+}
+
+/* ---------- Navegación inferior fija (móvil/tablet) ---------- */
+.pp-bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  background: var(--pp-surface);
+  border-top: 1px solid var(--pp-line);
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+.pp-bottom-nav ul {
+  list-style: none; margin: 0 auto; padding: 0;
+  max-width: 720px;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.pp-bottom-nav button {
+  width: 100%; min-height: 56px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px;
+  background: none; border: 0; cursor: pointer;
+  color: var(--pp-ink-muted);
+  font-family: var(--f-body);
+  font-size: 0.7rem; line-height: 1.1;
+  padding: 4px 2px; text-align: center;
+}
+.pp-bottom-nav button .pill-ic {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 28px; border-radius: 100px;
+  color: inherit;
+}
+.pp-bottom-nav button svg { width: 20px; height: 20px; }
+.pp-bottom-nav button[aria-current="page"] {
+  color: var(--pp-ink); font-weight: 600;
+}
+.pp-bottom-nav button[aria-current="page"] .pill-ic {
+  background: var(--pp-ink); color: #fff;
+}
+.pp-bottom-nav button[disabled] { opacity: 0.4; cursor: not-allowed; }
+.pp-bottom-nav button:focus-visible {
+  outline: 2px solid var(--pp-ink); outline-offset: -2px; border-radius: 4px;
+}
+@media (min-width: 1024px) {
+  .pp-bottom-nav { display: none; }
+}
+
+/* Reserva de espacio para que la nav inferior no tape contenido */
+.pp-bottom-pad { height: calc(72px + env(safe-area-inset-bottom)); }
+@media (min-width: 1024px) { .pp-bottom-pad { display: none; } }
+
+/* ---------- Ajustes a cards/botones existentes ---------- */
+body {
+  padding-top: 0;
+}
+
+/* Quitar fondo cremoso original del contenedor principal */
+.page { background: var(--pp-surface) !important; }
+
+/* Welcome header: tipografía PEDPAL, menos infantil */
+.welcome-header {
+  background: none !important;
+  padding: 24px 0 8px !important;
+}
+.welcome-header h1 {
+  font-size: 1.6rem !important;
+  letter-spacing: -0.01em !important;
+  color: var(--pp-ink) !important;
+  text-shadow: none !important;
+}
+.star-animation { font-size: 1.3rem !important; }
+.welcome-subtitle {
+  color: var(--pp-ink-muted) !important;
+  font-family: var(--f-body) !important;
+  font-size: 1rem !important;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Cards PEDPAL: bordes rectos finos, nada de sombras pesadas */
+.info-card,
+.step-card,
+.body-map-container,
+.selected-regions,
+.characteristics-info,
+.assessment-info,
+.current-pain-selector,
+.current-assessment-selector,
+.flacc-category,
+.nccpc-category,
+.nccpc-full-instructions,
+.pain-locations-summary,
+.pain-classifications,
+.location-result {
+  background: var(--pp-surface) !important;
+  border: 1px solid var(--pp-line) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+.info-card { background: var(--pp-surface-alt) !important; border-color: transparent !important; }
+
+/* Botones primarios: pill ink, texto blanco */
+.btn--primary {
+  background: var(--pp-ink) !important;
+  color: #fff !important;
+  border-radius: 100px !important;
+  border: 2px solid var(--pp-ink) !important;
+  font-family: var(--f-display) !important;
+  font-weight: 600 !important;
+  min-height: 44px;
+}
+.btn--primary:hover { background: var(--pp-brown) !important; border-color: var(--pp-brown) !important; }
+
+.btn--outline, .btn--secondary {
+  background: var(--pp-surface) !important;
+  border: 2px solid rgba(2, 18, 40, 0.4) !important;
+  border-radius: 100px !important;
+  color: var(--pp-ink) !important;
+  font-family: var(--f-display) !important;
+  font-weight: 600 !important;
+  min-height: 44px;
+}
+.btn--outline:hover, .btn--secondary:hover {
+  background: var(--pp-surface-alt) !important;
+  border-color: var(--pp-ink) !important;
+}
+
+/* Botones de edad / patología / características: estilo card PEDPAL */
+.age-btn, .pathology-btn, .characteristic-item {
+  background: var(--pp-surface) !important;
+  border: 2px solid var(--pp-line) !important;
+  border-radius: 4px !important;
+  color: var(--pp-ink) !important;
+  box-shadow: none !important;
+}
+.age-btn:hover, .pathology-btn:hover, .characteristic-item:hover {
+  border-color: var(--pp-ink) !important;
+  background: var(--pp-surface) !important;
+}
+.age-btn.selected, .pathology-btn.selected, .characteristic-item.selected {
+  background: var(--pp-ink) !important;
+  border-color: var(--pp-ink) !important;
+  color: #fff !important;
+}
+.age-btn.selected small,
+.pathology-btn.selected .pathology-text small,
+.characteristic-item.selected p {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Indicador de progreso PEDPAL (pills) */
+.progress-step {
+  background: var(--pp-surface-alt) !important;
+  color: var(--pp-ink-muted) !important;
+  border: 1px solid var(--pp-line) !important;
+}
+.progress-step.active {
+  background: var(--pp-ink) !important;
+  color: #fff !important;
+  border-color: var(--pp-ink) !important;
+}
+.progress-step.completed {
+  background: var(--pp-blue-700) !important;
+  color: #fff !important;
+  border-color: var(--pp-blue-700) !important;
+}
+
+/* Selector de pain/assessment: píldoras */
+.pain-selector-btn, .assessment-selector-btn {
+  border: 2px solid rgba(2, 18, 40, 0.4) !important;
+  border-radius: 100px !important;
+  background: var(--pp-surface) !important;
+  color: var(--pp-ink) !important;
+  min-height: 44px;
+  padding: 8px 16px !important;
+  font-family: var(--f-display) !important;
+  font-weight: 600 !important;
+}
+.pain-selector-btn.active, .assessment-selector-btn.active {
+  background: var(--pp-ink) !important;
+  color: #fff !important;
+  border-color: var(--pp-ink) !important;
+}
+
+/* Score options (FLACC/NCCPC): cards sobrias */
+.score-option {
+  background: var(--pp-surface-alt) !important;
+  border: 1px solid var(--pp-line) !important;
+  border-radius: 4px !important;
+}
+.score-option:hover {
+  background: var(--pp-surface) !important;
+  border-color: var(--pp-ink) !important;
+}
+
+/* Marker info (zonas de dolor) */
+.marker-info {
+  background: var(--pp-surface-alt) !important;
+  border: 1px solid var(--pp-line) !important;
+  border-radius: 100px !important;
+}
+.marker-info.active {
+  background: var(--pp-ink) !important;
+  color: #fff !important;
+  border-color: var(--pp-ink) !important;
+}
+
+/* Modal content */
+.modal-content {
+  background: var(--pp-surface) !important;
+  border: 1px solid var(--pp-line) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 32px rgba(2, 18, 40, 0.18) !important;
+}
+
+/* Legend NCCPC */
+.legend-item {
+  background: var(--pp-surface-alt) !important;
+  color: var(--pp-ink) !important;
+  border-radius: 100px !important;
+}
+
+/* Footer con franja fina y aviso */
+.pp-foot {
+  padding: 14px 0 20px;
+  font-size: 0.84rem;
+  color: var(--pp-ink-muted);
+}
+.pp-foot .wrap {
+  max-width: 1180px; margin: 0 auto; padding: 0 16px;
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between;
+}
+
+/* Disclaimer (bajo cabecera) */
+.pp-disclaimer {
+  max-width: 1180px; margin: 0 auto;
+  padding: 10px 16px 12px;
+  font-size: 0.84rem; color: var(--pp-ink-muted);
+}

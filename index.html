@@ -3,12 +3,47 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Evaluación del Dolor Pediátrico</title>
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light">
+    <meta name="description" content="Herramienta de apoyo a la evaluación del dolor pediátrico: localización corporal, características y escalas validadas (FLACC, FPS-R, NRS, NCCPC-R).">
+    <meta name="referrer" content="no-referrer">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Dolor Pediátrico">
+    <meta name="application-name" content="Dolor Pediátrico">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pedpal.css">
 </head>
 
 <body>
+    <!-- Cabecera PEDPAL (sticky) + franja -->
+    <header class="pp-header">
+        <div class="bar">
+            <a class="pp-brand" href="#" data-nav="welcome" aria-label="Inicio">
+                <h1>Dolor <span>Pediátrico</span></h1>
+                <p>Evaluación clínica · 0-18 años</p>
+            </a>
+            <nav class="pp-top-nav" aria-label="Fases">
+                <ul>
+                    <li><button type="button" data-nav="welcome" aria-current="page">Inicio</button></li>
+                    <li><button type="button" data-nav="body-mapping" disabled>Zonas</button></li>
+                    <li><button type="button" data-nav="pain-characteristics" disabled>Características</button></li>
+                    <li><button type="button" data-nav="assessment" disabled>Escala</button></li>
+                    <li><button type="button" data-nav="results" disabled>Informe</button></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </header>
+
     <!-- Página de Bienvenida -->
     <div id="welcome-page" class="page active">
         <div class="container">
@@ -577,7 +612,111 @@
         </div>
     </div>
 
+    <!-- Pie con franja fina -->
+    <div class="franja fina" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <footer class="pp-foot">
+        <div class="wrap">
+            <span>© 2026 Álvaro Navarro · Evaluador del Dolor Pediátrico</span>
+            <span>Herramienta de apoyo. No sustituye el juicio clínico.</span>
+        </div>
+    </footer>
+
+    <!-- Espacio bajo contenido para que no lo tape la barra inferior -->
+    <div class="pp-bottom-pad" aria-hidden="true"></div>
+
+    <!-- Navegación inferior fija (móvil/tablet) -->
+    <nav class="pp-bottom-nav" aria-label="Fases">
+        <ul>
+            <li><button type="button" data-nav="welcome" aria-current="page">
+                <span class="pill-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10 L12 3 L21 10 V20 a1 1 0 0 1 -1 1 H4 a1 1 0 0 1 -1 -1 Z"/><path d="M9 21 V12 h6 v9"/></svg></span>
+                Inicio
+            </button></li>
+            <li><button type="button" data-nav="body-mapping" disabled>
+                <span class="pill-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                Zonas
+            </button></li>
+            <li><button type="button" data-nav="pain-characteristics" disabled>
+                <span class="pill-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41 13.41 20.59 a2 2 0 0 1 -2.83 0 L2 12 V2 h10 l8.59 8.59 a2 2 0 0 1 0 2.82Z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+                Carac.
+            </button></li>
+            <li><button type="button" data-nav="assessment" disabled>
+                <span class="pill-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/><line x1="7" y1="13" x2="17" y2="13"/><line x1="7" y1="17" x2="13" y2="17"/></svg></span>
+                Escala
+            </button></li>
+            <li><button type="button" data-nav="results" disabled>
+                <span class="pill-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2 H6 a2 2 0 0 0 -2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2 -2 V8 Z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg></span>
+                Informe
+            </button></li>
+        </ul>
+    </nav>
+
     <script src="app.js"></script>
+    <script>
+    /* Puente PEDPAL: sincroniza la nav PEDPAL (superior + inferior) con
+     * el router interno de app.js. Registra las páginas visitadas y solo
+     * habilita el salto hacia pantallas ya alcanzadas. También registra
+     * el service worker PWA. */
+    (function () {
+      "use strict";
+      const PAGES = ["welcome", "body-mapping", "pain-characteristics", "assessment", "results"];
+      const visited = new Set(["welcome"]);
+      const navButtons = () => document.querySelectorAll("[data-nav]");
+
+      function currentPage() {
+        for (const p of PAGES) {
+          const el = document.getElementById(p === "welcome" ? "welcome-page" : p === "body-mapping" ? "body-mapping-page" : p === "pain-characteristics" ? "pain-characteristics-page" : p === "assessment" ? "assessment-page" : "results-page");
+          if (el && el.classList.contains("active")) return p;
+        }
+        return "welcome";
+      }
+
+      function refreshNav() {
+        const cur = currentPage();
+        visited.add(cur);
+        navButtons().forEach(btn => {
+          const t = btn.dataset.nav;
+          if (!t || t === "") return;
+          if (t === cur) btn.setAttribute("aria-current", "page");
+          else btn.removeAttribute("aria-current");
+          if (btn.tagName === "BUTTON") {
+            btn.disabled = !visited.has(t);
+          }
+        });
+      }
+
+      function goTo(name) {
+        if (!visited.has(name)) return;
+        if (typeof window.showPage === "function") {
+          window.showPage(name);
+          setTimeout(refreshNav, 0);
+        }
+      }
+
+      document.addEventListener("click", function (e) {
+        const el = e.target.closest("[data-nav]");
+        if (!el) return;
+        const name = el.dataset.nav;
+        if (!PAGES.includes(name)) return;
+        e.preventDefault();
+        goTo(name);
+      });
+
+      // Observa cambios de clase en los elementos .page para refrescar la nav
+      const observer = new MutationObserver(refreshNav);
+      document.querySelectorAll(".page").forEach(p => observer.observe(p, { attributes: true, attributeFilter: ["class"] }));
+
+      // Primera pasada
+      document.addEventListener("DOMContentLoaded", refreshNav);
+      if (document.readyState !== "loading") refreshNav();
+
+      // PWA: registra el service worker
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./sw.js").catch(() => {});
+        });
+      }
+    })();
+    </script>
 </body>
 
 </html>
